@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Pair<S extends Pairable<T>, T extends Pairable<?>> {
+public class Pair<S extends Pairable<T>, T extends Pairable<S>> {
 
     private final List<Pairable<?>> pairables;
 

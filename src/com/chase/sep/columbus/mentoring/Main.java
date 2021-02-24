@@ -9,8 +9,8 @@ public class Main {
 
     public static void main(String[] args) {
         Map<String, Integer> preferences = new HashMap<>();
-        preferences.put("Reece", 1);
-        preferences.put("Connor", 2);
+        preferences.put("Anthony", 1);
+        preferences.put("Reece", 2);
         Mentor nick = new Mentor("Nick", 2, preferences);
 
         preferences = new HashMap<>();
@@ -18,7 +18,12 @@ public class Main {
         preferences.put("Connor", 2);
         Mentor anisha = new Mentor("Anisha", 1, preferences);
 
-        List<Mentor> mentors = Arrays.asList(nick, anisha);
+        preferences = new HashMap<>();
+        preferences.put("Anthony", 1);
+        preferences.put("Connor", 2);
+        Mentor ricardo = new Mentor("Ricardo", 1, preferences);
+
+        List<Mentor> mentors = Arrays.asList(nick, anisha, ricardo);
 
         preferences = new HashMap<>();
         preferences.put("Anisha", 1);
@@ -26,18 +31,24 @@ public class Main {
         Mentee madison = new Mentee("Madison", preferences);
 
         preferences = new HashMap<>();
-        preferences.put("Nick", 1);
-        preferences.put("Anisha", 2);
+        preferences.put("Anisha", 1);
+        preferences.put("Nick", 2);
         Mentee reece = new Mentee("Reece", preferences);
 
         preferences = new HashMap<>();
         preferences.put("Anisha", 1);
-        preferences.put("Nick", 2);
+        preferences.put("Ricardo", 2);
         Mentee connor = new Mentee("Connor", preferences);
 
-        List<Mentee> mentees = Arrays.asList(madison, reece, connor);
+        preferences = new HashMap<>();
+        preferences.put("Anisha", 1);
+        preferences.put("Ricardo", 2);
+        preferences.put("Nick", 3);
+        Mentee anthony = new Mentee("Anthony", preferences);
 
-        List<Pair<Mentor, Mentee>> pairs = PairingUtil.pair(mentors, mentees);
+        List<Mentee> mentees = Arrays.asList(madison, reece, connor, anthony);
+
+        List<Pair<Mentee, Mentor>> pairs = PairingUtil.pair(mentees, mentors);
 
         System.out.println("PAIRS");
         System.out.println("==================================");
