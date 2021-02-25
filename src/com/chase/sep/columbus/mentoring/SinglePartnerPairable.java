@@ -15,10 +15,6 @@ public abstract class SinglePartnerPairable<T extends Pairable<?>> implements Pa
         this.topChoices = topChoices;
     }
 
-    public T getPartner() {
-        return partner;
-    }
-
     public void setPreferences(List<T> elements) {
         this.preferences.addAll(elements);
     }

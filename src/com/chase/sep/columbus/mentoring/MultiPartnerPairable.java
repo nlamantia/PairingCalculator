@@ -16,11 +16,6 @@ public abstract class MultiPartnerPairable<T extends Pairable<?>> extends Single
     }
 
     @Override
-    public T getPartner() {
-        throw new UnsupportedOperationException("Cannot get single partner for multi-partner Pairable");
-    }
-
-    @Override
     public boolean prefer(T newObj) {
         if (newObj != null) {
             T currentWeakestMatch = this.matches.peek();

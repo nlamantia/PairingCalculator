@@ -2,6 +2,7 @@ package com.chase.sep.columbus.mentoring;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,10 +18,13 @@ public class Pair<S extends Pairable<T>, T extends Pairable<S>> {
 
     @Override
     public String toString() {
-        String names = this.pairables.stream()
+        return this.pairables.stream()
                 .map(Pairable::name)
                 .collect(Collectors.joining(", "));
+    }
 
-        return "(" + names + ")";
+    public static <S extends Pairable<T>, T extends Pairable<S>> List<Pair<T, S>> invert(List<Pair<S, T>> list) {
+        // TODO
+        return Collections.emptyList();
     }
 }
