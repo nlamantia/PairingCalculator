@@ -16,6 +16,10 @@ public class Pair<S extends Pairable<T>, T extends Pairable<S>> {
         this.pairables.addAll(pairables);
     }
 
+    public List<Pairable<?>> getPairables() {
+        return pairables;
+    }
+
     @Override
     public String toString() {
         return this.pairables.stream()
