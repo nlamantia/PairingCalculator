@@ -4,7 +4,12 @@ import java.util.Map;
 
 public class Mentee extends SinglePartnerPairable<Mentor> {
 
-    private String sid;
+    private final String sid;
+
+    public Mentee(String name, String sid) {
+        super(name);
+        this.sid = sid;
+    }
 
     public Mentee(String sid, String name, Map<String, Integer> topChoices) {
         super(name, topChoices);

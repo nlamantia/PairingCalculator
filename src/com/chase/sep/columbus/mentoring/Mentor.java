@@ -4,7 +4,12 @@ import java.util.Map;
 
 public class Mentor extends MultiPartnerPairable<Mentee> {
 
-    private String sid;
+    private final String sid;
+
+    public Mentor(String sid, String name, int maxPartners) {
+        super(name, maxPartners);
+        this.sid = sid;
+    }
 
     public Mentor(String sid, String name, int maxPartners, Map<String, Integer> topChoices) {
         super(name, maxPartners, topChoices);
@@ -34,5 +39,4 @@ public class Mentor extends MultiPartnerPairable<Mentee> {
         }
         return "";
     }
-
 }

@@ -7,11 +7,23 @@ public abstract class SinglePartnerPairable<T extends Pairable<?>> implements Pa
     private T partner;
     private final PriorityQueue<T> preferences;
     private final String name;
-    private final Map<String, Integer> topChoices;
+    private Map<String, Integer> topChoices;
 
-    protected SinglePartnerPairable(String name, Map<String, Integer> topChoices) {
+    public SinglePartnerPairable(String name) {
         this.name = name;
         this.preferences = new PriorityQueue<>(this);
+    }
+
+    protected SinglePartnerPairable(String name, Map<String, Integer> topChoices) {
+        this(name);
+        this.topChoices = topChoices;
+    }
+
+    protected Map<String, Integer> getTopChoices() {
+        return this.topChoices;
+    }
+
+    public void setTopChoices(Map<String, Integer> topChoices) {
         this.topChoices = topChoices;
     }
 

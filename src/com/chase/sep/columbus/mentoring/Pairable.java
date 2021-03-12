@@ -2,7 +2,6 @@ package com.chase.sep.columbus.mentoring;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public interface Pairable<T extends Pairable<?>> {
 

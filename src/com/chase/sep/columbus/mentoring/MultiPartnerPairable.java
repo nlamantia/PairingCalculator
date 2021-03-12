@@ -9,6 +9,12 @@ public abstract class MultiPartnerPairable<T extends Pairable<?>> extends Single
     private final PriorityQueue<T> matches;
     protected final int maxPartners;
 
+    public MultiPartnerPairable(String name, int maxPartners) {
+        super(name);
+        this.maxPartners = maxPartners;
+        this.matches = new PriorityQueue<>((o1, o2) -> -1 * this.compare(o1, o2));
+    }
+
     protected MultiPartnerPairable(String name, int maxPartners, Map<String, Integer> topChoices) {
         super(name, topChoices);
         this.maxPartners = maxPartners;
