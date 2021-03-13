@@ -22,6 +22,11 @@ public abstract class MultiPartnerPairable<T extends Pairable<?>> extends Single
     }
 
     @Override
+    public int getMaxPartners() {
+        return this.maxPartners;
+    }
+
+    @Override
     public boolean prefer(T newObj) {
         if (newObj != null) {
             T currentWeakestMatch = this.matches.peek();

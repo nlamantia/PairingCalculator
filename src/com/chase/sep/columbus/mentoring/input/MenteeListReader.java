@@ -14,6 +14,10 @@ public class MenteeListReader extends CSVReader<Mentee> {
         super(fileName);
     }
 
+    public String[] getMentorNames() {
+        return mentorNames;
+    }
+
     @Override
     protected Mentee parseRow(String[] row, int rowNum) {
         if (rowNum > 0) {

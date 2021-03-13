@@ -39,4 +39,9 @@ public class Mentor extends MultiPartnerPairable<Mentee> {
         }
         return "";
     }
+
+    @Override
+    public String toString() {
+        return getFirstName() + " " + getLastName();
+    }
 }

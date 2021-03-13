@@ -37,4 +37,9 @@ public class Mentee extends SinglePartnerPairable<Mentor> {
         return "";
     }
 
+    @Override
+    public String toString() {
+        return getFirstName() + " " + getLastName();
+    }
+
 }

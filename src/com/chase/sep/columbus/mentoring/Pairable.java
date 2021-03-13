@@ -65,4 +65,13 @@ public interface Pairable<T extends Pairable<?>> {
      */
     Collection<T> matches();
 
+    /**
+     * Returns the maximum number of partners this object can be paired with
+     *
+     * @return - {@code int} max number of partners
+     */
+    default int getMaxPartners() {
+        return 1;
+    }
+
 }

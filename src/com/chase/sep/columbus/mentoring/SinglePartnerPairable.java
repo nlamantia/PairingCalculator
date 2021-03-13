@@ -31,6 +31,12 @@ public abstract class SinglePartnerPairable<T extends Pairable<?>> implements Pa
         this.preferences.addAll(elements);
     }
 
+    public Map<T, Integer> getPreferences() {
+        Map<T, Integer> preferencesMap = new LinkedHashMap<>();
+        preferences.forEach((obj) -> preferencesMap.put(obj, this.getPreferenceScore(obj)));
+        return preferencesMap;
+    }
+
     @Override
     public String name() {
         return this.name;
@@ -72,14 +78,12 @@ public abstract class SinglePartnerPairable<T extends Pairable<?>> implements Pa
 
     @Override
     public int compare(T o1, T o2) {
-        int o1Score = topChoices.containsKey(o1.name())
-                ? topChoices.get(o1.name())
-                : topChoices.size() + 1;
+        return getPreferenceScore(o1) - getPreferenceScore(o2);
+    }
 
-        int o2Score = topChoices.containsKey(o2.name())
-                ? topChoices.get(o2.name())
+    public int getPreferenceScore(T obj) {
+        return topChoices.containsKey(obj.name())
+                ? topChoices.get(obj.name())
                 : topChoices.size() + 1;
-
-        return o1Score - o2Score;
     }
 }
