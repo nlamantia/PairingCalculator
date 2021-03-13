@@ -17,6 +17,55 @@ public class PreferencesMatrix {
         this.matrix = matrix;
     }
 
+    public int[][] getOptimalAssignments() {
+        this.optimize();
+        this.uncover();
+
+        int[][] assignments = new int[this.matrix.length][2];
+
+        int assignmentCounter = 0;
+
+        while (assignmentCounter < this.matrix.length) {
+            int[][] zeroes = countUncoveredZeroes();
+            int[] rowZeroes = zeroes[0];
+            int[] colZeroes = zeroes[1];
+
+            int minZeroRow = minNonZeroPos(rowZeroes);
+            int minZeroCol = minNonZeroPos(colZeroes);
+
+            int x = -1, y = -1;
+            if (rowZeroes[minZeroRow] < colZeroes[minZeroCol]) {
+                // find the first zero cell in that row
+                x = minZeroRow;
+                for (int i = 0; i < matrix.length; i++) {
+                    if (matrix[minZeroRow][i] == 0 && !this.isCovered(minZeroRow, i)) {
+                        y = i;
+                        break;
+                    }
+                }
+            } else {
+                // find the first zero cell in that column
+                y = minZeroCol;
+                for (int i = 0; i < matrix.length; i++) {
+                    if (matrix[i][minZeroCol] == 0 && !this.isCovered(i, minZeroCol)) {
+                        x = i;
+                        break;
+                    }
+                }
+            }
+
+            this.coveredRows.add(x);
+            this.coveredColumns.add(y);
+
+            assignments[assignmentCounter] = new int[2];
+            assignments[assignmentCounter][0] = y;
+            assignments[assignmentCounter][1] = x;
+            assignmentCounter++;
+        }
+
+        return assignments;
+    }
+
     public void optimize() {
         // step 1: subtract row minima
         for (int i = 0; i < this.matrix.length; i++) {
@@ -105,44 +154,73 @@ public class PreferencesMatrix {
     public void cover() {
         this.uncover();
 
-        int maxZeroRow = -1;
-        int maxZeroCol = -1;
-
-        int[] rowZeroes = new int[matrix.length];
-        Arrays.fill(rowZeroes, 0);
-
-        int[] colZeroes = new int[matrix.length];
-        Arrays.fill(colZeroes, 0);
-
         while (uncoveredZeroExists()) {
-            for (int row = 0; row < matrix.length; row++) {
-                for (int col = 0; col < matrix.length; col++) {
-                    if (matrix[row][col] == 0 && !this.isCovered(row, col)) {
-                        rowZeroes[row]++;
-                        if (maxZeroRow == -1 || rowZeroes[row] > rowZeroes[maxZeroRow]) {
-                            maxZeroRow = row;
-                        }
+            int[][] zeroes = countUncoveredZeroes();
+            int[] rowZeroes = zeroes[0];
+            int[] colZeroes = zeroes[1];
 
-                        colZeroes[col]++;
-                        if (maxZeroCol == -1 || colZeroes[col] > colZeroes[maxZeroCol]) {
-                            maxZeroCol = col;
-                        }
-                    }
-                }
-            }
+            int maxZeroRow = maxPos(rowZeroes);
+            int maxZeroCol = maxPos(colZeroes);
 
             if (rowZeroes[maxZeroRow] > colZeroes[maxZeroCol]) {
                 this.coveredRows.add(maxZeroRow);
             } else {
                 this.coveredColumns.add(maxZeroCol);
             }
-
-            // reset
-            Arrays.fill(rowZeroes, 0);
-            Arrays.fill(colZeroes, 0);
-            maxZeroRow = -1;
-            maxZeroCol = -1;
         }
+    }
+
+    private int[][] countUncoveredZeroes() {
+        int[] rowZeroes = new int[matrix.length];
+        Arrays.fill(rowZeroes, 0);
+
+        int[] colZeroes = new int[matrix.length];
+        Arrays.fill(colZeroes, 0);
+
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix.length; col++) {
+                if (matrix[row][col] == 0 && !this.isCovered(row, col)) {
+                    rowZeroes[row]++;
+                    colZeroes[col]++;
+                }
+            }
+        }
+
+        return new int[][] { rowZeroes, colZeroes };
+    }
+
+    /**
+     * Returns the position of the max of a given integer array
+     *
+     * @param arr - a non-null integer array
+     * @return - the POSITION of the maximum in {@code arr}
+     */
+    private int maxPos(int[] arr) {
+        int maxValue = Integer.MIN_VALUE, maxPos = -1;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > maxValue) {
+                maxValue = arr[i];
+                maxPos = i;
+            }
+        }
+        return maxPos;
+    }
+
+    /**
+     * Returns the position of the min of a given integer array
+     *
+     * @param arr - a non-null integer array
+     * @return - the POSITION of the minimum in {@code arr}
+     */
+    private int minNonZeroPos(int[] arr) {
+        int minValue = Integer.MAX_VALUE, minPos = -1;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] < minValue && arr[i] != 0) {
+                minValue = arr[i];
+                minPos = i;
+            }
+        }
+        return minPos;
     }
 
     private boolean uncoveredZeroExists() {

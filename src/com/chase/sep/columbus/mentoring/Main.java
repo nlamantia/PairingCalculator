@@ -14,28 +14,21 @@ import java.util.stream.Collectors;
 public class Main {
 
     public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-//
-//        System.out.print("Mentor list: ");
-//        String mentorFileName = scanner.nextLine();
-//
-//        System.out.print("Mentee list: ");
-//        String menteeFileName = scanner.nextLine();
+        Scanner scanner = new Scanner(System.in);
 
-        PreferencesMatrix matrix = new PreferencesMatrix(new int[][]{
-                new int[]{1, 1, 2, 3, 4, 4},
-                new int[]{3, 3, 1, 2, 4, 4},
-                new int[]{2, 2, 1, 3, 4, 4},
-                new int[]{3, 3, 2, 4, 1, 1},
-                new int[]{2, 2, 1, 4, 3, 3},
-                new int[]{2, 2, 4, 1, 3, 3}
-        });
-        System.out.println("Raw matrix:");
-        System.out.println(matrix.toString());
+        System.out.print("Mentor list: ");
+        String mentorFileName = scanner.nextLine();
 
-        matrix.optimize();
-        System.out.println("Optimized matrix:");
-        System.out.println(matrix.toString());
+        System.out.print("Mentee list: ");
+        String menteeFileName = scanner.nextLine();
+
+        PreferencesMatrix matrix = new PreferencesMatrix(mentorPreferenceMatrix(mentorFileName, menteeFileName));
+        int[][] assignments = matrix.getOptimalAssignments();
+
+        System.out.println("Optimal assignments:");
+        for (int[] assignment : assignments) {
+            System.out.println(String.format("(%d, %d)", assignment[0], assignment[1]));
+        }
 
 //        // print combinations
 //        List<Pair<Mentee, Mentor>> pairs = PairingUtil.pair(mentees, mentors);
@@ -91,9 +84,7 @@ public class Main {
             throw new IllegalStateException("No mentor names found");
         }
 
-        for (String name : mentorNames) {
-            System.out.println(name);
-        }
+        System.out.println(String.format("[%s]", String.join(", ", mentorNames)));
 
         int numOfMentees = mentees.size();
         int[][] matrix = new int[numOfMentees][numOfMentees];
