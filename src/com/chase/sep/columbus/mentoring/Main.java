@@ -3,7 +3,6 @@ package com.chase.sep.columbus.mentoring;
 import com.chase.sep.columbus.mentoring.hungarian.PreferencesMatrix;
 import com.chase.sep.columbus.mentoring.input.MenteeListReader;
 import com.chase.sep.columbus.mentoring.input.MentorListReader;
-import com.chase.sep.columbus.mentoring.input.MentorPreferenceListReader;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,54 +17,13 @@ public class Main {
 
         System.out.print("Mentor list: ");
         String mentorFileName = scanner.nextLine();
+        MentorListReader mentorListReader = new MentorListReader(mentorFileName);
 
         System.out.print("Mentee list: ");
         String menteeFileName = scanner.nextLine();
+        MenteeListReader menteeListReader = new MenteeListReader(menteeFileName);
 
-        PreferencesMatrix matrix = new PreferencesMatrix(mentorPreferenceMatrix(mentorFileName, menteeFileName));
-        int[][] assignments = matrix.getOptimalAssignments();
-
-        System.out.println("Optimal assignments:");
-        for (int[] assignment : assignments) {
-            System.out.println(String.format("(%d, %d)", assignment[0], assignment[1]));
-        }
-
-//        // print combinations
-//        List<Pair<Mentee, Mentor>> pairs = PairingUtil.pair(mentees, mentors);
-//        printPairs(pairs, "Mentee-Mentor PAIRS");
-//
-//        try {
-//            // set up print writer
-//            String fileName = "/Users/d590964/pairings.csv";
-//            FileWriter fileWriter = new FileWriter(fileName);
-//            PrintWriter printWriter = new PrintWriter(fileWriter);
-//
-//            // write the pairs to a CSV file
-//            MentorPairWriter writer = new MentorPairWriter(printWriter, pairs);
-//            writer.writeToCSV();
-//
-//            // close the print writer
-//            printWriter.close();
-//
-//            System.out.println("Output written successfully");
-//        } catch (IOException exception) {
-//            System.err.println(exception.getMessage());
-//        }
-    }
-
-    private static <S extends Pairable<T>, T extends Pairable<S>> void printPairs(List<Pair<S, T>> pairs, String title) {
-        System.out.println(title);
-        System.out.println("==================================");
-        pairs.forEach(pair -> {
-            System.out.println("(" + pair.toString() + ")");
-        });
-        System.out.println("");
-    }
-
-    private static int[][] mentorPreferenceMatrix(String mentorFileName, String menteeFileName) {
-        MentorListReader mentorListReader = new MentorListReader(mentorFileName);
         List<Mentor> mentorList = mentorListReader.getData();
-
         Map<String, Mentor> mentorMap = mentorList
                 .stream()
                 .collect(
@@ -75,16 +33,11 @@ public class Main {
                         )
                 );
 
-        MenteeListReader menteeListReader = new MenteeListReader(menteeFileName);
         List<Mentee> mentees = menteeListReader.getData();
-        System.out.println(mentees.toString() + "\n\n");
-
         String[] mentorNames = menteeListReader.getMentorNames();
         if (mentorNames == null) {
             throw new IllegalStateException("No mentor names found");
         }
-
-        System.out.println(String.format("[%s]", String.join(", ", mentorNames)));
 
         int numOfMentees = mentees.size();
         int[][] matrix = new int[numOfMentees][numOfMentees];
@@ -109,6 +62,62 @@ public class Main {
             }
         }
 
-        return matrix;
+        PreferencesMatrix preferencesMatrix = new PreferencesMatrix(matrix);
+        int[][] assignments = preferencesMatrix.getOptimalAssignments();
+
+        List<Pair<Mentee, Mentor>> pairs = new ArrayList<>();
+        for (int[] assignment : assignments) {
+            int mentorIndex = assignment[0];
+            int menteeIndex = assignment[1];
+
+            int counter = 0;
+            Mentor matchedMentor = null;
+            for (String mentorName : mentorNames) {
+                Mentor mentor = mentorMap.get(mentorName);
+                for (int i = 0; i < mentor.getMaxPartners(); i++) {
+                    if (counter == mentorIndex) {
+                        matchedMentor = mentor;
+                        break;
+                    } else {
+                        counter++;
+                    }
+                }
+
+                if (matchedMentor != null) {
+                    pairs.add(new Pair<>(mentees.get(menteeIndex), Collections.singleton(matchedMentor)));
+                    break;
+                }
+            }
+        }
+
+        // print combinations
+        printPairs(pairs, "Mentee-Mentor PAIRS");
+
+        try {
+            // set up print writer
+            String fileName = "/Users/d590964/pairings.csv";
+            FileWriter fileWriter = new FileWriter(fileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+
+            // write the pairs to a CSV file
+            MentorPairWriter writer = new MentorPairWriter(printWriter, pairs);
+            writer.writeToCSV();
+
+            // close the print writer
+            printWriter.close();
+
+            System.out.println("Output written successfully");
+        } catch (IOException exception) {
+            System.err.println(exception.getMessage());
+        }
+    }
+
+    private static <S extends Pairable<T>, T extends Pairable<S>> void printPairs(List<Pair<S, T>> pairs, String title) {
+        System.out.println(title);
+        System.out.println("==================================");
+        pairs.forEach(pair -> {
+            System.out.println("(" + pair.toString() + ")");
+        });
+        System.out.println("");
     }
 }

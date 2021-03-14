@@ -66,7 +66,7 @@ public class PreferencesMatrix {
         return assignments;
     }
 
-    public void optimize() {
+    private void optimize() {
         // step 1: subtract row minima
         for (int i = 0; i < this.matrix.length; i++) {
             subtractFromRow(i, rowMin(i));
@@ -97,20 +97,20 @@ public class PreferencesMatrix {
         }
     }
 
-    public void subtractFromRow(int rowNum, int value) {
+    private void subtractFromRow(int rowNum, int value) {
         int[] row = matrix[rowNum];
         for (int i = 0; i < row.length; i++) {
             row[i] -= value;
         }
     }
 
-    public void subtractFromColumn(int colNum, int value) {
+    private void subtractFromColumn(int colNum, int value) {
         for (int i = 0; i < matrix.length; i++) {
             matrix[i][colNum] -= value;
         }
     }
 
-    public int rowMin(int rowNum) {
+    private int rowMin(int rowNum) {
         int[] row = matrix[rowNum];
         int min = Integer.MAX_VALUE;
         for (int value : row) {
@@ -119,7 +119,7 @@ public class PreferencesMatrix {
         return min;
     }
 
-    public int columnMin(int col) {
+    private int columnMin(int col) {
         int min = Integer.MAX_VALUE;
         for (int[] row : matrix) {
             min = Math.min(min, row[col]);
@@ -127,7 +127,7 @@ public class PreferencesMatrix {
         return min;
     }
 
-    public int uncoveredMin() {
+    private int uncoveredMin() {
         int min = matrix.length + 1;
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[row].length; col++) {
@@ -139,19 +139,19 @@ public class PreferencesMatrix {
         return min;
     }
 
-    public boolean isCovered(int rowNum, int colNum) {
+    private boolean isCovered(int rowNum, int colNum) {
         boolean isCoveredInRow = coveredRows.contains(rowNum);
         boolean isCoveredInColumn = coveredColumns.contains(colNum);
         return isCoveredInRow || isCoveredInColumn;
     }
 
-    public boolean isDoubleCovered(int rowNum, int colNum) {
+    private boolean isDoubleCovered(int rowNum, int colNum) {
         boolean isCoveredInRow = coveredRows.contains(rowNum);
         boolean isCoveredInColumn = coveredColumns.contains(colNum);
         return isCoveredInRow && isCoveredInColumn;
     }
 
-    public void cover() {
+    private void cover() {
         this.uncover();
 
         while (uncoveredZeroExists()) {
@@ -234,7 +234,7 @@ public class PreferencesMatrix {
         return false;
     }
 
-    public void uncover() {
+    private void uncover() {
         coveredRows.clear();
         coveredColumns.clear();
     }
