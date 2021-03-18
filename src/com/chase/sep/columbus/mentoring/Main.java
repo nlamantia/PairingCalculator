@@ -93,6 +93,38 @@ public class Main {
         // print combinations
         printPairs(pairs, "Mentee-Mentor PAIRS");
 
+        // print percentage of first, second, and third choices
+        final int maxNumberOfTopChoices = 5;
+        int gotFirstChoice = 0, gotSecondChoice = 0, gotThirdChoice = 0, gotOtherChoice = 0;
+        for (Pair<Mentee, Mentor> pair : pairs) {
+            List<Pairable<?>> pairables = pair.getPairables();
+            Mentee mentee = (Mentee) pairables.get(0);
+
+            if (mentee.getTopChoices().size() <= maxNumberOfTopChoices) {
+                Mentor mentor = (Mentor) pairables.get(1);
+
+                switch (mentee.getPreferenceScore(mentor)) {
+                    case 1:
+                        gotFirstChoice++;
+                        break;
+                    case 2:
+                        gotSecondChoice++;
+                        break;
+                    case 3:
+                        gotThirdChoice++;
+                        break;
+                    default:
+                        gotOtherChoice++;
+                }
+            }
+        }
+
+        System.out.println("First choice: " + ((float) gotFirstChoice / pairs.size() * 100) + "%");
+        System.out.println("Second choice: " + ((float) gotSecondChoice / pairs.size() * 100) + "%");
+        System.out.println("Third choice: " + ((float) gotThirdChoice / pairs.size() * 100) + "%");
+        System.out.println("Other: " + ((float) gotOtherChoice / pairs.size() * 100) + "%\n");
+
+        // write output to file
         try {
             // set up print writer
             String fileName = "/Users/d590964/pairings.csv";
