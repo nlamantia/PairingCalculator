@@ -40,7 +40,7 @@ public class MentorPairWriter {
                     Mentee mentee = (Mentee) pairable;
                     String menteeStr = String.format(
                             "%s,%s,%s",
-                            mentee.getSid(),
+                            mentee.getSid().toUpperCase(),
                             mentee.getLastName(),
                             mentee.getFirstName()
                     );
@@ -49,7 +49,7 @@ public class MentorPairWriter {
                     Mentor mentee = (Mentor) pairable;
                     String mentorStr = String.format(
                             ",%s,%s,%s",
-                            mentee.getSid(),
+                            mentee.getSid().toUpperCase(),
                             mentee.getLastName(),
                             mentee.getFirstName()
                     );
