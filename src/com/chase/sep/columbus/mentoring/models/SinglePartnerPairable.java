@@ -1,7 +1,15 @@
-package com.chase.sep.columbus.mentoring;
+package com.chase.sep.columbus.mentoring.models;
 
 import java.util.*;
 
+/**
+ * Class that represents entities that can be paired with exactly 1 partner in pairing situations.
+ * This class was created to represent the base case in pairing scenarios.
+ *
+ * @see Pairable
+ *
+ * @param <T> - the type of entity with which we are pairing entities of this child class's type
+ */
 public abstract class SinglePartnerPairable<T extends Pairable<?>> implements Pairable<T>, Comparator<T> {
 
     private T partner;
@@ -19,7 +27,7 @@ public abstract class SinglePartnerPairable<T extends Pairable<?>> implements Pa
         this.topChoices = topChoices;
     }
 
-    protected Map<String, Integer> getTopChoices() {
+    public Map<String, Integer> getTopChoices() {
         return this.topChoices;
     }
 

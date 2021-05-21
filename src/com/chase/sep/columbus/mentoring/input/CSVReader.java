@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that parses Java objects out of a CSV file
+ *
+ * @param <T> - the type of object we are instantiating based on the information from a CSV file
+ */
 public abstract class CSVReader<T> {
 
     private final List<T> data;
@@ -28,6 +33,13 @@ public abstract class CSVReader<T> {
         }
     }
 
+    /**
+     * Parses a {@code T} out of a CSV row
+     *
+     * @param row - array of values that were separated by commas in a row in a CSV file
+     * @param index - which row is being parsed
+     * @return - an instance of {@code T}
+     */
     protected abstract T parseRow(String[] row, int index);
 
     public List<T> getData() {

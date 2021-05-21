@@ -1,10 +1,18 @@
-package com.chase.sep.columbus.mentoring;
+package com.chase.sep.columbus.mentoring.output;
+
+import com.chase.sep.columbus.mentoring.models.Mentee;
+import com.chase.sep.columbus.mentoring.models.Mentor;
+import com.chase.sep.columbus.mentoring.models.Pair;
+import com.chase.sep.columbus.mentoring.models.Pairable;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Writes a CSV file with all the mentor-mentee pairs in the format Shamoy wants
+ */
 public class MentorPairWriter {
 
     private final List<Pair<Mentee, Mentor>> pairs;
@@ -34,7 +42,6 @@ public class MentorPairWriter {
                     })
                     .collect(Collectors.toList());
 
-            // TODO: clean up
             for (Pairable<?> pairable : pairables) {
                 if (pairable instanceof Mentee) {
                     Mentee mentee = (Mentee) pairable;

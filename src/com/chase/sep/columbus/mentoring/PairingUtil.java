@@ -1,11 +1,24 @@
 package com.chase.sep.columbus.mentoring;
 
+import com.chase.sep.columbus.mentoring.hungarian.HungarianMatrix;
+import com.chase.sep.columbus.mentoring.models.Pair;
+import com.chase.sep.columbus.mentoring.models.Pairable;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 public class PairingUtil {
 
-    public static <S extends Pairable<T>, T extends Pairable<S>> List<Pair<S, T>> pair(
+    public static <S extends Pairable<T>, T extends Pairable<S>, M extends HungarianMatrix<S, T>> List<Pair<S, T>> hungarian(
+            List<S> list1,
+            List<T> list2,
+            BiFunction<List<S>, List<T>, M> matrixCreator
+    ) {
+        return matrixCreator.apply(list1, list2).getPairs();
+    }
+
+    public static <S extends Pairable<T>, T extends Pairable<S>> List<Pair<S, T>> stableMarriage(
             List<S> list1,
             List<T> list2
     ) {

@@ -1,12 +1,21 @@
 package com.chase.sep.columbus.mentoring.input;
 
-import com.chase.sep.columbus.mentoring.Mentor;
-import com.chase.sep.columbus.mentoring.input.MentorListReader;
+import com.chase.sep.columbus.mentoring.models.Mentor;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Mentor list CSV reader that takes into account mentor preferences.
+ *
+ * This class would be used in cases where we use the speed dating event approach (e.g. 2021 early starts).
+ * Ideally, we get into the habit of doing speed dating events all the time for pairing, but in time crunches,
+ * it might be necessary to do one-way preferences. That is why there are two different classes for these
+ * two different scenarios.
+ *
+ * @see MentorListReader
+ */
 public class MentorPreferenceListReader extends MentorListReader {
 
     private String[] menteeNames;

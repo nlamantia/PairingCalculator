@@ -1,7 +1,18 @@
-package com.chase.sep.columbus.mentoring;
+package com.chase.sep.columbus.mentoring.models;
 
 import java.util.Map;
 
+/**
+ * POJO representing mentors.
+ *
+ * In most cases, mentors have more than 1 mentee, so this class extends {@code MultiPartnerPairable}.
+ * Even if the mentor has no more than 1 mentee, this class will still suffice. However, if we have a case
+ * where all mentors have exactly 1 mentee, then we can either stick with this class and make sure everyone's
+ * {@code maxPartners} is 1 or just create a brand new class that extends {@code SinglePartnerPairable}
+ *
+ * @see SinglePartnerPairable
+ * @see MultiPartnerPairable
+ */
 public class Mentor extends MultiPartnerPairable<Mentee> {
 
     private final String sid;

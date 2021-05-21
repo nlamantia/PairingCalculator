@@ -2,7 +2,13 @@ package com.chase.sep.columbus.mentoring.hungarian;
 
 import java.util.*;
 
-public class PreferencesMatrix {
+/**
+ * Class that takes care of matrix optimization, which will help extract the optimal pairs
+ * from two lists.
+ *
+ * @see HungarianMatrix
+ */
+class PreferencesMatrix {
 
     private final Set<Integer> coveredRows = new HashSet<>();
     private final Set<Integer> coveredColumns = new HashSet<>();
@@ -17,7 +23,7 @@ public class PreferencesMatrix {
         this.matrix = matrix;
     }
 
-    public int[][] getOptimalAssignments() {
+    int[][] getOptimalAssignments() {
         this.optimize();
         this.uncover();
 
@@ -25,6 +31,7 @@ public class PreferencesMatrix {
 
         int assignmentCounter = 0;
 
+        // cover the row or column with the max number of 0's
         while (assignmentCounter < this.matrix.length) {
             int[][] zeroes = countUncoveredZeroes();
             int[] rowZeroes = zeroes[0];

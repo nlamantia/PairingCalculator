@@ -1,7 +1,17 @@
-package com.chase.sep.columbus.mentoring;
+package com.chase.sep.columbus.mentoring.models;
 
 import java.util.Map;
 
+/**
+ * POJO to represent a Mentee.
+ *
+ * This class assumes that every mentee has exactly one mentor.
+ * If there becomes a need for mentees to have multiple mentors, we would need to extend
+ * the {@code MultiPartnerPairable} class
+ *
+ * @see SinglePartnerPairable
+ * @see MultiPartnerPairable
+ */
 public class Mentee extends SinglePartnerPairable<Mentor> {
 
     private final String sid;

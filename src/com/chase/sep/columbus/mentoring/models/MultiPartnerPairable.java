@@ -1,9 +1,17 @@
-package com.chase.sep.columbus.mentoring;
+package com.chase.sep.columbus.mentoring.models;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.PriorityQueue;
 
+/**
+ * Class that represents entities that can be paired with multiple partners in pairing situations.
+ * This class was created to make the stable marriage algorithm work in multi-partner situations.
+ *
+ * @see SinglePartnerPairable
+ *
+ * @param <T> - the type of entity with which we are pairing entities of this child class's type
+ */
 public abstract class MultiPartnerPairable<T extends Pairable<?>> extends SinglePartnerPairable<T> {
 
     private final PriorityQueue<T> matches;

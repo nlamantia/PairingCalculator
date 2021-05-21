@@ -1,8 +1,20 @@
-package com.chase.sep.columbus.mentoring;
+package com.chase.sep.columbus.mentoring.models;
 
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Represents an entity that can be paired with other entities using either the
+ * stable marriage algorithm or the hungarian algorithm.
+ *
+ * This interface defines
+ * methods that are needed for the stable marriage algorithm to function and allows
+ * implementing classes the ability to implement them however they want. Ultimately,
+ * the stable marriage algorithm doesn't care how these operations are implemented,
+ * thus this is represented as an interface with no default implementations.
+ *
+ * @param <T> - the type with which the implementing entity shall be paired up
+ */
 public interface Pairable<T extends Pairable<?>> {
 
     /**

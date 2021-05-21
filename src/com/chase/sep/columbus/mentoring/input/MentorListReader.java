@@ -1,7 +1,12 @@
 package com.chase.sep.columbus.mentoring.input;
 
-import com.chase.sep.columbus.mentoring.Mentor;
+import com.chase.sep.columbus.mentoring.models.Mentor;
 
+/**
+ * Mentor list CSV reader class for when mentors DO NOT have preferences.
+ *
+ * This class would be used if we were using the profile slide approach (e.g. 2020 ETP pairings)
+ */
 public class MentorListReader extends CSVReader<Mentor> {
 
     public MentorListReader(String fileName) {

@@ -1,11 +1,16 @@
 package com.chase.sep.columbus.mentoring.input;
 
-import com.chase.sep.columbus.mentoring.Mentee;
+import com.chase.sep.columbus.mentoring.models.Mentee;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Parses a list of mentees and their mentor preferences. We are under the assumptions that
+ * mentees ALWAYS have preferences of some sort. If there becomes a need for them to not have
+ * any preferences, we can make sure that every mentor is labeled with the same number.
+ */
 public class MenteeListReader extends CSVReader<Mentee> {
 
     private String[] mentorNames;
